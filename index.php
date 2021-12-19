@@ -1,17 +1,8 @@
 <?php
 require_once __DIR__ . "/App/Router.php";
+require_once __DIR__ . "/Controllers/UserController.php";
+require_once __DIR__ . "/Api/Response.php";
 
-use App\Router;
-
-class asas
-{
-    public function asd($data = "")
-    {
-        echo "<br>DATA<br>";
-        var_dump($data);
-    }
-}
-
-Router::get('/asd', asas::class, 'asd');
+Router::get('/', [UserController::class, 'users']);
 
 Router::run();
