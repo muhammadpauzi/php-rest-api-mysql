@@ -1,8 +1,8 @@
 CREATE TABLE user_profiles(
     id          int NOT NULL AUTO_INCREMENT,
-    bio         text NOT NULL DEFAULT '',
-    facebook    varchar(256) NOT NULL DEFAULT '',
-    instagram   varchar(256) NOT NULL DEFAULT '',
+    bio         text,
+    facebook    varchar(256) NOT NULL,
+    instagram   varchar(256) NOT NULL,
     id_user     int NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY id_user_unique (id_user),

@@ -1,7 +1,9 @@
 CREATE TABLE categories(
     id          int NOT NULL AUTO_INCREMENT,
     title       varchar(128) NOT NULL,
-    body        text NOT NULL,
+    description text,
     PRIMARY KEY (id),
-    INDEX       title_body_index (title, body),
+    INDEX       title_description_index (title, description),
+    created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FULLTEXT    users_search (title, description)
 ) ENGINE = InnoDB CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
