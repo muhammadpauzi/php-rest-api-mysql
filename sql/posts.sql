@@ -1,6 +1,7 @@
 CREATE TABLE posts(
     id          int NOT NULL AUTO_INCREMENT,
     title       varchar(128) NOT NULL,
+    description varchar(1000) NOT NULL DEFAULT '',
     body        text NOT NULL,
     id_category int NOT NULL,
     id_user     int NOT NULL,
