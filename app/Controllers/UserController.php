@@ -1,4 +1,9 @@
 <?php
+
+namespace App\Controllers;
+
+use Response;
+
 class UserController
 {
     public function users()

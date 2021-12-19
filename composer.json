@@ -1,0 +1,23 @@
+{
+    "name": "muhammad-pauzi/php-rest-api",
+    "description": "Learn built Rest API on PHP",
+    "authors": [
+        {
+            "name": "muhammadpauzi",
+            "email": "muhammadpauzi200@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\": "test"
+        }
+    }
+}

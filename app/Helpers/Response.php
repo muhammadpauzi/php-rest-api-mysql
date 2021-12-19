@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Helpers;
+
 class Response
 {
     private static function json(array|string $data = "")
