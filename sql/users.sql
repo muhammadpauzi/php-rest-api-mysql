@@ -8,7 +8,7 @@ CREATE TABLE users(
     UNIQUE KEY  username_unique (username),
     UNIQUE KEY  email_unique (email),
     INDEX       name_index (name),
-    CONSTRAINT  fk_users_profile
-        FOREIGN KEY (id_profile) REFERENCES profiles (id)
-            ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB, CHARSET = utf8mb4, COLLATE = utf8mb4_unicode_ci;
+    -- CONSTRAINT  fk_users_profile
+    --     FOREIGN KEY (id_profile) REFERENCES profiles (id)
+    --         ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;

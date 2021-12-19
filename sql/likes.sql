@@ -9,4 +9,4 @@ CREATE TABLE likes(
     CONSTRAINT  fk_likes_user
         FOREIGN KEY (id_user) REFERENCES users (id)
             ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB, CHARSET = utf8mb4, COLLATE = utf8mb4_unicode_ci;
+) ENGINE = InnoDB CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
