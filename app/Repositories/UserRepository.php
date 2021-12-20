@@ -16,4 +16,9 @@ class UserRepository
     {
         return $this->db->query("SELECT * FROM $this->table")->resultArray();
     }
+
+    public function findById(int $id): array
+    {
+        return $this->db->query("SELECT * FROM $this->table WHERE id = :id LIMIT 1")->bind(":id", $id)->resultArray();
+    }
 }

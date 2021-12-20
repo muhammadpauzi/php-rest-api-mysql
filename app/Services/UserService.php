@@ -31,4 +31,27 @@ class UserService
             );
         }
     }
+
+    public function user(int $id)
+    {
+        try {
+            Database::beginTransaction();
+            // get users through repository
+            $user = $this->userRepository->findById($id);
+            if (!$user)
+                Response::notFoundResponse([
+                    "message" => USER_NOT_FOUND_MESSAGE
+                ]);
+            return $user;
+            Database::commitTransaction();
+        } catch (Exception $e) {
+            Database::rollbackTransaction();
+            return Response::serverErrorResponse(
+                data: [
+                    "message" => SERVER_ERROR_MESSAGE,
+                    "error" => $e->getMessage()
+                ]
+            );
+        }
+    }
 }

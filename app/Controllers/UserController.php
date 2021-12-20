@@ -23,4 +23,10 @@ class UserController
         $users = $this->userService->users();
         return Response::successResponse(["data" => $users]);
     }
+
+    public function user(int $id)
+    {
+        $users = $this->userService->user($id);
+        return Response::successResponse(["data" => $users]);
+    }
 }
