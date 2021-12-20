@@ -59,6 +59,7 @@ class Database
     public static function query($query)
     {
         self::$stmt = self::$pdo->prepare($query);
+        return self::class;
     }
 
     public static function bind($param, $value, $type = null)
@@ -80,10 +81,23 @@ class Database
         }
 
         self::$stmt->bindValue($param, $value, $type);
+        return self::class;
     }
 
     public static function execute()
     {
         self::$stmt->execute();
+    }
+
+    public function resultArray()
+    {
+        self::execute();
+        return self::$stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function singleArray()
+    {
+        self::execute();
+        return self::$stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
