@@ -16,7 +16,7 @@ class Database
     private static ?PDO $pdo = null;
     private static $stmt;
 
-    public function __construct()
+    public static function getConnection()
     {
         $options = [
             PDO::ATTR_PERSISTENT => true,
