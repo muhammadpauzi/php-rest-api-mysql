@@ -12,3 +12,7 @@ CREATE TABLE posts(
     created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FULLTEXT    posts_search (title, description)
 ) ENGINE = InnoDB CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+ALTER TABLE posts
+    DROP FOREIGN KEY fk_posts_user;
+
