@@ -20,4 +20,14 @@ class Response
     {
         self::setStatus(200)::json($data);
     }
+
+    public static function notFoundResponse(array|string $data = ""): void
+    {
+        self::setStatus(404)::json($data);
+    }
+
+    public static function serverErrorResponse(int $status = 500, array|string $data = ""): void
+    {
+        self::setStatus($status)::json($data);
+    }
 }
