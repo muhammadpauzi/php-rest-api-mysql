@@ -20,7 +20,8 @@ class UserController
 
     public function users()
     {
-        $users = $this->userService->users();
+        $search_keyword = $_GET['q'] ?? '';
+        $users = $this->userService->users($search_keyword);
         return Response::successResponse(["data" => $users]);
     }
 

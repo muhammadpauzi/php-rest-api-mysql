@@ -13,12 +13,17 @@ class UserService
     {
     }
 
-    public function users()
+    public function users(string $search_keyword = "")
     {
         try {
             Database::beginTransaction();
+            $users = [];
             // get users through repository
-            $users = $this->userRepository->findAll();
+            if ($search_keyword) {
+                $users = $this->userRepository->findAllBySearchKeyword($search_keyword);
+            } else {
+                $users = $this->userRepository->findAll();
+            }
             return $users;
             Database::commitTransaction();
         } catch (Exception $e) {
