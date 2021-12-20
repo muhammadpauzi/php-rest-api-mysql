@@ -1,7 +1,7 @@
 CREATE TABLE categories(
     id          int NOT NULL AUTO_INCREMENT,
     title       varchar(128) NOT NULL,
-    description text,
+    description varchar(500),
     PRIMARY KEY (id),
     INDEX       title_description_index (title, description),
     created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
