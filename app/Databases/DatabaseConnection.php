@@ -3,25 +3,37 @@
 namespace App\Databases;
 
 use PDO;
+use PDOException;
 
 class DatabaseConnection
 {
-    public function __construct(private DatabaseConfiguration $configuration)
+    private static ?PDO $pdo = null;
+    private static DatabaseConfiguration $configuration;
+
+    public function __construct(DatabaseConfiguration $configuration)
     {
+        self::$configuration = $configuration;
     }
 
-    public function getDsn(): string
+    public static function getDsn(): string
     {
-        return "mysql:host=" . $this->configuration->getHost() . ";dbname=" . $this->configuration->getDBName();
+        return "mysql:host=" . self::$configuration->getHost() . ";dbname=" . self::$configuration->getDBName();
     }
 
-    public function getConnection(): PDO
+    public static function getConnection(): PDO
     {
-        return new PDO(
-            $this->getDsn(),
-            $this->configuration->getUsername(),
-            $this->configuration->getPassword(),
-            $this->configuration->getOptions()
-        );
+        try {
+            if (is_null(self::$pdo)) {
+                self::$pdo = new PDO(
+                    self::getDsn(),
+                    self::$configuration->getUsername(),
+                    self::$configuration->getPassword(),
+                    self::$configuration->getOptions()
+                );;
+                return self::$pdo;
+            }
+        } catch (PDOException $e) {
+            die($e->getMessage());
+        }
     }
 }

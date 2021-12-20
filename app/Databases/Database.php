@@ -5,64 +5,65 @@ namespace App\Databases;
 use PDO;
 use PDOException;
 
+use const App\Constants\DB_HOST;
+use const App\Constants\DB_NAME;
+use const App\Constants\DB_PASSWORD;
+use const App\Constants\DB_PORT;
+use const App\Constants\DB_USERNAME;
+
 class Database
 {
-    private static string $host = getenv("DB_HOST");
-    private static int $port = getenv("DB_PORT");
-    private static string $dbname = getenv("DB_NAME");
-    private static string $username = getenv("DB_USERNAME");
-    private static string $password = getenv("DB_PASSWORD");
+    private static string $host = DB_HOST;
+    private static int $port = DB_PORT;
+    private static string $dbname = DB_NAME;
+    private static string $username = DB_USERNAME;
+    private static string $password = DB_PASSWORD;
 
-    private static ?PDO $pdo = null;
+    private static PDO $connection;
     private static $stmt;
 
-    public static function getConnection()
+    public static function getDatabase()
     {
         $options = [
             PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         ];
 
-        try {
-            if (is_null(self::$pdo)) {
-                $config = new DatabaseConfiguration(
-                    self::$host,
-                    self::$port,
-                    self::$username,
-                    self::$password,
-                    self::$dbname,
-                    $options
-                );
-                $connection = new DatabaseConnection($config);
-                self::$pdo = $connection->getConnection();
-            }
-        } catch (PDOException $e) {
-            die($e->getMessage());
-        }
+        $config = new DatabaseConfiguration(
+            self::$host,
+            self::$port,
+            self::$username,
+            self::$password,
+            self::$dbname,
+            $options
+        );
+        $connection = new DatabaseConnection($config);
+        self::$connection = $connection->getConnection();
+        return new self;
     }
 
     public static function beginTransaction()
     {
-        self::$pdo->beginTransaction();
+        self::$connection->beginTransaction();
     }
 
     public static function commitTransaction()
     {
-        self::$pdo->commit();
+        self::$connection->commit();
     }
 
     public static function rollbackTransaction()
     {
-        self::$pdo->rollBack();
+        self::$connection->rollBack();
     }
 
-    public static function query($query)
+    public function query($query)
     {
-        self::$stmt = self::$pdo->prepare($query);
-        return self::class;
+        self::$stmt = self::$connection->prepare($query);
+        return $this;
     }
 
-    public static function bind($param, $value, $type = null)
+    public function bind($param, $value, $type = null)
     {
         if (is_null($type)) {
             switch (true) {
@@ -81,23 +82,23 @@ class Database
         }
 
         self::$stmt->bindValue($param, $value, $type);
-        return self::class;
+        return $this;
     }
 
-    public static function execute()
+    public function execute()
     {
         self::$stmt->execute();
     }
 
     public function resultArray()
     {
-        self::execute();
+        $this->execute();
         return self::$stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function singleArray()
     {
-        self::execute();
+        $this->execute();
         return self::$stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
