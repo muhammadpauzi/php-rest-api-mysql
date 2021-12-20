@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Databases\Database;
 use App\Helpers\Response;
-use App\Respositories\UserRepository;
+use App\Repositories\UserRepository;
 use App\Services\UserService;
 
 class UserController

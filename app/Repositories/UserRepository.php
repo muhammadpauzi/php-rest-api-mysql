@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Respositories;
+namespace App\Repositories;
 
 use App\Databases\Database;
-use PDO;
 
 class UserRepository
 {

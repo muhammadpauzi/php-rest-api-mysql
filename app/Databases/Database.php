@@ -3,13 +3,6 @@
 namespace App\Databases;
 
 use PDO;
-use PDOException;
-
-use const App\Constants\DB_HOST;
-use const App\Constants\DB_NAME;
-use const App\Constants\DB_PASSWORD;
-use const App\Constants\DB_PORT;
-use const App\Constants\DB_USERNAME;
 
 class Database
 {

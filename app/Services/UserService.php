@@ -4,11 +4,8 @@ namespace App\Services;
 
 use App\Databases\Database;
 use App\Helpers\Response;
-use App\Respositories\UserRepository;
+use App\Repositories\UserRepository;
 use Exception;
-
-use const App\Constants\SERVER_ERROR_MESSAGE;
-use const App\Constants\USERS_NOT_FOUND_MESSAGE;
 
 class UserService
 {
@@ -16,17 +13,12 @@ class UserService
     {
     }
 
-    public function users(): array
+    public function users()
     {
         try {
             Database::beginTransaction();
             // get users through repository
             $users = $this->userRepository->findAll();
-            // if users does not exists
-            if (!$users)
-                return Response::notFoundResponse([
-                    "message" => USERS_NOT_FOUND_MESSAGE
-                ]);
             return $users;
             Database::commitTransaction();
         } catch (Exception $e) {
@@ -37,7 +29,6 @@ class UserService
                     "error" => $e->getMessage()
                 ]
             );
-            throw $e;
         }
     }
 }
