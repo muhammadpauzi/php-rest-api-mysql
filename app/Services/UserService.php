@@ -7,6 +7,9 @@ use App\Helpers\Response;
 use App\Respositories\UserRepository;
 use Exception;
 
+use const App\Constants\SERVER_ERROR_MESSAGE;
+use const App\Constants\USERS_NOT_FOUND_MESSAGE;
+
 class UserService
 {
     public function __construct(private UserRepository $userRepository)
@@ -22,7 +25,7 @@ class UserService
             // if users does not exists
             if (!$users)
                 return Response::notFoundResponse([
-                    "message" => "USERS_NOT_FOUND"
+                    "message" => USERS_NOT_FOUND_MESSAGE
                 ]);
             return $users;
             Database::commitTransaction();
@@ -30,7 +33,8 @@ class UserService
             Database::rollbackTransaction();
             return Response::serverErrorResponse(
                 data: [
-                    "message" => $e->getMessage()
+                    "message" => SERVER_ERROR_MESSAGE,
+                    "error" => $e->getMessage()
                 ]
             );
             throw $e;
