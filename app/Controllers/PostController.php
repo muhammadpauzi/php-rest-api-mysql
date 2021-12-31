@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Databases\Database;
 use App\Helpers\Response;
 use App\Repositories\PostRepository;
+use App\Repositories\UserRepository;
 use App\Services\PostService;
 
 class PostController
@@ -15,7 +16,8 @@ class PostController
     {
         $db = Database::getDatabase();
         $postRepository = new PostRepository($db);
-        $this->postService = new PostService($postRepository);
+        $userRepository = new UserRepository($db);
+        $this->postService = new PostService($postRepository, $userRepository);
     }
 
     public function posts()

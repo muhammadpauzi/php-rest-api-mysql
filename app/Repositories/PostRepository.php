@@ -14,7 +14,7 @@ class PostRepository
 
     public function findAll(): array
     {
-        return $this->db->query("SELECT * FROM $this->table")->resultArray();
+        return $this->db->query("SELECT * FROM $this->table JOIN users ON users.id = $this->table.id_user LIMIT 1")->resultArray();
     }
 
     public function findAllBySearchKeyword(string $search_keyword = ""): array
@@ -24,7 +24,7 @@ class PostRepository
 
     public function findById(int $id): array
     {
-        return $this->db->query("SELECT * FROM $this->table WHERE id = :id LIMIT 1")->bind(":id", $id)->single();
+        return $this->db->query("SELECT * FROM $this->table JOIN users ON (users.id = $this->table.id_user) WHERE $this->table.id = :id LIMIT 1")->bind(":id", $id)->single();
     }
 
     public function findAllByUserID(int $id): array
