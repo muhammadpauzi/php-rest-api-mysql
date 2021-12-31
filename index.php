@@ -15,6 +15,7 @@ require_once __DIR__ . '/app/Constants/messages.php';
 // routes
 Router::get('/users', [UserController::class, 'users']);
 Router::get('/users/([0-9]*)', [UserController::class, 'user']);
+Router::get('/users/([0-9]*)/posts', [UserController::class, 'userWithPosts']);
 
 Router::get('/posts', [PostController::class, 'posts']);
 Router::get('/posts/([0-9]*)', [PostController::class, 'post']);

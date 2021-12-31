@@ -4,12 +4,13 @@ namespace App\Services;
 
 use App\Databases\Database;
 use App\Helpers\Response;
+use App\Repositories\PostRepository;
 use App\Repositories\UserRepository;
 use Exception;
 
 class UserService
 {
-    public function __construct(private UserRepository $userRepository)
+    public function __construct(private UserRepository $userRepository, private PostRepository $postRepository)
     {
     }
 
@@ -47,6 +48,31 @@ class UserService
                 Response::notFoundResponse([
                     "message" => USER_NOT_FOUND_MESSAGE
                 ]);
+            return $user;
+            Database::commitTransaction();
+        } catch (Exception $e) {
+            Database::rollbackTransaction();
+            return Response::serverErrorResponse(
+                data: [
+                    "message" => SERVER_ERROR_MESSAGE,
+                    "error" => $e->getMessage()
+                ]
+            );
+        }
+    }
+
+    public function userWithPosts(int $id)
+    {
+        try {
+            Database::beginTransaction();
+            // get users through repository
+            $user = $this->userRepository->findById($id);
+            if (!$user)
+                Response::notFoundResponse([
+                    "message" => USER_NOT_FOUND_MESSAGE
+                ]);
+            $posts = $this->postRepository->findAllByID($id);
+            $user["posts"] = $posts;
             return $user;
             Database::commitTransaction();
         } catch (Exception $e) {
