@@ -24,7 +24,10 @@ class PostController
     {
         $search_keyword = $_GET['q'] ?? '';
         $posts = $this->postService->posts($search_keyword);
-        return Response::successResponse(["data" => $posts]);
+        return Response::successResponse([
+            "total" => count($posts),
+            "data"  => $posts
+        ]);
     }
 
     public function post(int $id)

@@ -24,7 +24,10 @@ class UserController
     {
         $search_keyword = $_GET['q'] ?? '';
         $users = $this->userService->users($search_keyword);
-        return Response::successResponse(["data" => $users]);
+        return Response::successResponse([
+            "total" => count($users),
+            "data"  => $users
+        ]);
     }
 
     public function user(int $id)
@@ -36,6 +39,9 @@ class UserController
     public function userWithPosts(int $id)
     {
         $user = $this->userService->userWithPosts($id);
-        return Response::successResponse(["data" => $user]);
+        return Response::successResponse([
+            "total_posts" => count($user['posts']),
+            "data" => $user
+        ]);
     }
 }
