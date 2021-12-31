@@ -29,13 +29,13 @@ class UserController
 
     public function user(int $id)
     {
-        $users = $this->userService->user($id);
-        return Response::successResponse(["data" => $users]);
+        $user = $this->userService->user($id);
+        return Response::successResponse(["data" => $user]);
     }
 
     public function userWithPosts(int $id)
     {
-        $users = $this->userService->userWithPosts($id);
-        return Response::successResponse(["data" => $users]);
+        $user = $this->userService->userWithPosts($id);
+        return Response::successResponse(["data" => $user]);
     }
 }

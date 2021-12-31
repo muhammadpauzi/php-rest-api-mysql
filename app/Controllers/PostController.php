@@ -29,7 +29,7 @@ class PostController
 
     public function post(int $id)
     {
-        $posts = $this->postService->post($id);
-        return Response::successResponse(["data" => $posts]);
+        $post = $this->postService->post($id);
+        return Response::successResponse(["data" => $post]);
     }
 }
