@@ -14,12 +14,12 @@ class PostRepository
 
     public function findAll(): array
     {
-        return $this->db->query("SELECT * FROM $this->table JOIN users ON users.id = $this->table.id_user LIMIT 1")->resultArray();
+        return $this->db->query("SELECT * FROM $this->table JOIN users ON (users.id = $this->table.id_user)")->resultArray();
     }
 
     public function findAllBySearchKeyword(string $search_keyword = ""): array
     {
-        return $this->db->query("SELECT * FROM $this->table WHERE MATCH(title, description) AGAINST(:keyword IN NATURAL LANGUAGE MODE);")->bind(":keyword", $search_keyword)->resultArray();
+        return $this->db->query("SELECT * FROM $this->table  JOIN users ON (users.id = $this->table.id_user) WHERE MATCH(title, description) AGAINST(:keyword IN NATURAL LANGUAGE MODE);")->bind(":keyword", $search_keyword)->resultArray();
     }
 
     public function findById(int $id): array
