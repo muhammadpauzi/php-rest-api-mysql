@@ -71,7 +71,7 @@ class UserService
                 Response::notFoundResponse([
                     "message" => USER_NOT_FOUND_MESSAGE
                 ]);
-            $posts = $this->postRepository->findAllByID($id);
+            $posts = $this->postRepository->findAllByUserID($id);
             $user["posts"] = $posts;
             return $user;
             Database::commitTransaction();

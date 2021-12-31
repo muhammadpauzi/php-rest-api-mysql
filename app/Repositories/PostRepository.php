@@ -27,8 +27,8 @@ class PostRepository
         return $this->db->query("SELECT * FROM $this->table WHERE id = :id LIMIT 1")->bind(":id", $id)->single();
     }
 
-    public function findAllByID(int $id): array
+    public function findAllByUserID(int $id): array
     {
-        return $this->db->query("SELECT * FROM $this->table WHERE id = :id")->bind(":id", $id)->resultArray();
+        return $this->db->query("SELECT * FROM $this->table WHERE id_user = :id")->bind(":id", $id)->resultArray();
     }
 }
