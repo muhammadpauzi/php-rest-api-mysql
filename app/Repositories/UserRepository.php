@@ -19,7 +19,8 @@ class UserRepository
 
     public function findAllBySearchKeyword(string $search_keyword = ""): array
     {
-        return $this->db->query("SELECT * FROM $this->table WHERE MATCH(name, username, email) AGAINST('$search_keyword' IN NATURAL LANGUAGE MODE);")->resultArray();
+        return $this->db->query("SELECT * FROM $this->table WHERE MATCH(name, username, email) AGAINST(:keyword IN NATURAL LANGUAGE MODE);")->bind(":keyword", $search_keyword)->resultArray();
+        // return $this->db->query("SELECT * FROM $this->table WHERE name LIKE :name;")->bind(":name", "%$search_keyword%")->resultArray();
     }
 
     public function findById(int $id): array
