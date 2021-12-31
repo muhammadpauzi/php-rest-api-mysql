@@ -45,7 +45,7 @@ class PostService
             $post = $this->postRepository->findById($id);
             if (!$post)
                 Response::notFoundResponse([
-                    "message" => USER_NOT_FOUND_MESSAGE
+                    "message" => POST_NOT_FOUND_MESSAGE
                 ]);
             return $post;
             Database::commitTransaction();
