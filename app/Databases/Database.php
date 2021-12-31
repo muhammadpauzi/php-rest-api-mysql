@@ -89,7 +89,7 @@ class Database
         return self::$stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function singleArray()
+    public function single()
     {
         $this->execute();
         return self::$stmt->fetch(PDO::FETCH_ASSOC);
