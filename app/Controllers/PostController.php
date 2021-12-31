@@ -23,9 +23,18 @@ class PostController
     public function posts()
     {
         $search_keyword = $_GET['q'] ?? '';
-        $posts = $this->postService->posts($search_keyword);
+        $offset = intval($_GET['offset'] ?? 0);
+        $limit = intval($_GET['limit'] ?? 10);
+        $sort = strtolower($_GET['sort'] ?? 'ASC');
+
+        if ($sort !== "asc" || $sort !== 'desc')
+            $sort = 'ASC';
+
+        $posts = $this->postService->posts($search_keyword, $offset, $limit, $sort);
         return Response::successResponse([
             "total" => count($posts),
+            "previous" => $offset <= 0 ? false : ["offset" => $offset - $limit],
+            "next"  => count($posts) > 0 && count($posts) >= $limit ? ["offset" => $limit + $offset] : false,
             "data"  => $posts
         ]);
     }

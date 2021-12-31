@@ -12,14 +12,14 @@ class PostRepository
     {
     }
 
-    public function findAll(): array
+    public function findAll(int $offset, int $limit, string $sort): array
     {
-        return $this->db->query("SELECT *, users.created_at AS user_created_at FROM $this->table JOIN users ON (users.id = $this->table.id_user)")->resultArray();
+        return $this->db->query("SELECT *, users.created_at AS user_created_at, $this->table.id AS id FROM $this->table JOIN users ON (users.id = $this->table.id_user) ORDER BY $this->table.created_at $sort LIMIT :limit OFFSET :offset")->bind(":limit", $limit)->bind(":offset", $offset)->resultArray();
     }
 
-    public function findAllBySearchKeyword(string $search_keyword = ""): array
+    public function findAllBySearchKeyword(string $search_keyword, int $offset, int $limit, string $sort): array
     {
-        return $this->db->query("SELECT *, users.created_at AS user_created_at FROM $this->table  JOIN users ON (users.id = $this->table.id_user) WHERE MATCH(title, description) AGAINST(:keyword IN NATURAL LANGUAGE MODE);")->bind(":keyword", $search_keyword)->resultArray();
+        return $this->db->query("SELECT *, users.created_at AS user_created_at, users.id AS id_user FROM $this->table  JOIN users ON (users.id = $this->table.id_user) WHERE MATCH(title, description) AGAINST(:keyword IN NATURAL LANGUAGE MODE) ORDER BY $this->table.created_at $sort LIMIT :limit OFFSET :offset")->bind(":limit", $limit)->bind(":offset", $offset)->bind(":keyword", $search_keyword)->resultArray();
     }
 
     public function findById(int $id): array

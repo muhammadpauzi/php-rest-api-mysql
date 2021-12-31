@@ -13,16 +13,16 @@ class PostService
     {
     }
 
-    public function posts(string $search_keyword = "")
+    public function posts(string $search_keyword, int $offset, int $limit, string $sort)
     {
         try {
             Database::beginTransaction();
             $posts = [];
             // get posts through repository
             if ($search_keyword) {
-                $posts = $this->postRepository->findAllBySearchKeyword($search_keyword);
+                $posts = $this->postRepository->findAllBySearchKeyword($search_keyword, $offset, $limit, $sort);
             } else {
-                $posts = $this->postRepository->findAll();
+                $posts = $this->postRepository->findAll($offset, $limit, $sort);
             }
             return $posts;
             Database::commitTransaction();
